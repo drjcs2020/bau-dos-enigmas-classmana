@@ -236,3 +236,13 @@ font-size:22px;
 color:#ffd76a;
 
 }
+
+/* TAMANHO DO BAÚ */
+.chest img {
+    display: block;
+    width: min(280px, 45vw);
+    height: auto;
+    max-height: 220px;
+    object-fit: contain;
+    margin: 20px auto;
+}
