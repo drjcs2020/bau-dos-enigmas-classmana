@@ -1,118 +1,497 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Baú dos Enigmas - Reino ClassMana</title>
+<title>Baú dos Enigmas | Reino ClassMana</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    color: white;
+    background:
+        radial-gradient(circle at 50% 20%, #33446b 0%, #151a2b 45%, #080b14 100%);
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .25;
+    background-image:
+        radial-gradient(circle, #ffffff 1px, transparent 1px);
+    background-size: 55px 55px;
+}
+
+.container {
+    width: min(1100px, 94%);
+    margin: auto;
+}
+
+/* TOPO */
+
+header {
+    text-align: center;
+    padding: 55px 20px 30px;
+}
+
+.logo {
+    font-size: 1.2rem;
+    color: #ffd45c;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+}
+
+h1 {
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    color: #ffd45c;
+    text-shadow:
+        0 4px 0 #7b4b12,
+        0 0 25px rgba(255, 212, 92, .45);
+}
+
+.subtitle {
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    margin-top: 12px;
+    color: #f5f5f5;
+}
+
+/* CARTÃO */
+
+.panel {
+    background: rgba(18, 23, 39, .92);
+    border: 3px solid #dcae3f;
+    border-radius: 25px;
+    padding: 35px;
+    margin: 25px auto;
+    box-shadow:
+        0 0 0 5px rgba(220, 174, 63, .08),
+        0 15px 50px rgba(0,0,0,.45);
+}
+
+.panel h2 {
+    text-align: center;
+    color: #ffd45c;
+    margin-bottom: 15px;
+}
+
+.panel p {
+    text-align: center;
+    line-height: 1.7;
+    color: #e7e9ef;
+}
+
+/* BAÚ */
+
+.chest {
+    font-size: 110px;
+    text-align: center;
+    margin: 20px 0;
+    filter: drop-shadow(0 0 20px rgba(255,200,50,.55));
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%,100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+/* BOTÕES */
+
+button {
+    border: none;
+    border-radius: 14px;
+    padding: 15px 28px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.primary {
+    display: block;
+    margin: 25px auto 0;
+    background: linear-gradient(#ffd968, #d89521);
+    color: #351d00;
+    box-shadow: 0 5px 0 #8b5a13;
+}
+
+.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 0 #8b5a13;
+}
+
+.secondary {
+    background: #26304b;
+    color: white;
+    border: 1px solid #53658e;
+}
+
+/* GUILDAS */
+
+.guilds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.guild {
+    background: linear-gradient(145deg, #242d48, #111727);
+    border: 2px solid #495777;
+    border-radius: 18px;
+    padding: 25px 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.guild:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: #ffd45c;
+    box-shadow: 0 0 25px rgba(255,212,92,.25);
+}
+
+.guild .icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.guild h3 {
+    color: #ffd45c;
+    margin-bottom: 8px;
+}
+
+.guild p {
+    font-size: .9rem;
+    color: #cbd1df;
+}
+
+/* MISSÃO */
+
+.question {
+    font-size: 1.35rem;
+    text-align: center;
+    margin: 30px auto;
+    line-height: 1.6;
+}
+
+.answer {
+    display: flex;
+    gap: 10px;
+    max-width: 500px;
+    margin: auto;
+}
+
+.answer input {
+    flex: 1;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #647395;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.message {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.reward {
+    text-align: center;
+    padding: 30px;
+}
+
+.reward .crystal {
+    font-size: 80px;
+    margin: 15px;
+}
+
+/* ESCONDER TELAS */
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* RODAPÉ */
+
+footer {
+    text-align: center;
+    padding: 40px 10px;
+    color: #8f9ab3;
+    font-size: .85rem;
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <header>
-
-        <h1>🏰 Reino ClassMana</h1>
-
-        <h2>🔐 O Baú dos Enigmas</h2>
-
-        <p>
-        Uma nova missão começou...
-        Somente as guildas unidas conseguirão abrir o antigo baú do conhecimento.
-        </p>
-
-    </header>
+<header>
+    <div class="logo">🏰 REINO CLASSMANA</div>
+    <h1>🔐 O BAÚ DOS ENIGMAS</h1>
+    <p class="subtitle">
+        Uma aventura pelo conhecimento começa agora.
+    </p>
+</header>
 
 
-    <section class="bau">
+<!-- TELA INICIAL -->
 
-        <div class="bau-icon">
-    <img src="bau.png" alt="Baú dos Enigmas">
-</div>
+<section id="home" class="screen active">
 
-        <h2>O Grande Baú dos Enigmas</h2>
+    <div class="panel">
+
+        <div class="chest">🧰</div>
+
+        <h2>Uma nova missão começou...</h2>
 
         <p>
-        Seis selos mágicos protegem o conhecimento perdido.
-        Cada herói deverá resolver desafios para revelar a mensagem secreta.
+            O antigo Baú dos Enigmas foi selado por magia.
+            Somente os heróis capazes de unir inteligência,
+            coragem e trabalho em equipe poderão abri-lo.
         </p>
 
-        <button onclick="iniciarMissao()">
-            ✨ Iniciar Jornada
+        <button class="primary" onclick="showScreen('guilds')">
+            ✨ INICIAR JORNADA
         </button>
 
-    </section>
+    </div>
+
+</section>
 
 
+<!-- ESCOLHA DA GUILDA -->
 
-    <section class="guildas">
+<section id="guilds" class="screen">
 
-        <h2>Escolha sua Guilda</h2>
+    <div class="panel">
 
+        <h2>🛡️ Escolha sua Guilda</h2>
 
-        <div class="cards">
+        <p>
+            Cada guilda possui seus próprios poderes.
+            Escolha aquela que representará sua jornada.
+        </p>
 
+        <div class="guilds">
 
-            <div class="guilda fada">
-                🧚
+            <div class="guild" onclick="chooseGuild('Fadas Guerreiras')">
+                <div class="icon">🧚</div>
                 <h3>Fadas Guerreiras</h3>
+                <p>Criatividade e magia</p>
             </div>
 
-
-            <div class="guilda chama">
-                🔥🥶
+            <div class="guild" onclick="chooseGuild('Chama Congelante')">
+                <div class="icon">🔥🥶</div>
                 <h3>Chama Congelante</h3>
+                <p>Estratégia e equilíbrio</p>
             </div>
 
-
-            <div class="guilda lobos">
-                🐺🐱
+            <div class="guild" onclick="chooseGuild('Lobos e Gatunos')">
+                <div class="icon">🐺🐱</div>
                 <h3>Lobos e Gatunos</h3>
+                <p>Agilidade e inteligência</p>
             </div>
 
-
-            <div class="guilda cavaleiros">
-                ⚔️🛡️
+            <div class="guild" onclick="chooseGuild('Cavaleiros e Guerreiros')">
+                <div class="icon">⚔️🛡️</div>
                 <h3>Cavaleiros e Guerreiros</h3>
+                <p>Coragem e disciplina</p>
             </div>
 
-
-            <div class="guilda magos">
-                🧙👷
+            <div class="guild" onclick="chooseGuild('Mágicos e Engenheiros')">
+                <div class="icon">🧙👷</div>
                 <h3>Mágicos e Engenheiros</h3>
+                <p>Conhecimento e inovação</p>
             </div>
 
-
-            <div class="guilda dragoes">
-                🛡️🐉
+            <div class="guild" onclick="chooseGuild('Dragões de Combate')">
+                <div class="icon">🛡️🐉</div>
                 <h3>Dragões de Combate</h3>
+                <p>Força e determinação</p>
             </div>
-
 
         </div>
 
-    </section>
+    </div>
+
+</section>
+
+
+<!-- MISSÃO -->
+
+<section id="mission" class="screen">
+
+    <div class="panel">
+
+        <h2>📜 Primeira Missão</h2>
+
+        <p id="guildName"></p>
+
+        <div class="question">
+
+            🧙‍♂️ O Mago encontrou 24 cristais mágicos.
+
+            <br><br>
+
+            Ele precisa dividir os cristais igualmente
+            entre 6 heróis.
+
+            <br><br>
+
+            <strong>
+                Quantos cristais cada herói receberá?
+            </strong>
+
+        </div>
+
+        <div class="answer">
+
+            <input
+                id="answer"
+                type="number"
+                placeholder="Digite sua resposta"
+            >
+
+            <button class="primary" onclick="checkAnswer()">
+                ⚔️ RESPONDER
+            </button>
+
+        </div>
+
+        <div id="message" class="message"></div>
+
+    </div>
+
+</section>
+
+
+<!-- RECOMPENSA -->
+
+<section id="reward" class="screen">
+
+    <div class="panel reward">
+
+        <div class="crystal">💎</div>
+
+        <h2>🏆 FRAGMENTO CONQUISTADO!</h2>
+
+        <p>
+            Excelente trabalho, herói!
+        </p>
+
+        <br>
+
+        <p>
+            Você encontrou um fragmento do
+            <strong>Cristal do Conhecimento</strong>.
+        </p>
+
+        <br>
+
+        <h2>✨ +100 XP</h2>
+
+        <button class="primary" onclick="showScreen('guilds')">
+            🗺️ PRÓXIMA MISSÃO
+        </button>
+
+    </div>
+
+</section>
 
 
 <footer>
-
-<p>
-📚 Aprender • 🤝 Cooperar • ⭐ Evoluir • 🏆 Conquistar
-</p>
-
+    Reino ClassMana • Baú dos Enigmas
 </footer>
-
 
 </div>
 
 
-<script src="script.js"></script>
+<script>
+
+let selectedGuild = "";
+
+function showScreen(id) {
+
+    document.querySelectorAll(".screen")
+        .forEach(screen => screen.classList.remove("active"));
+
+    document.getElementById(id)
+        .classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+function chooseGuild(guild) {
+
+    selectedGuild = guild;
+
+    document.getElementById("guildName").innerHTML =
+        "🛡️ Guilda escolhida: <strong>" + guild + "</strong>";
+
+    document.getElementById("answer").value = "";
+    document.getElementById("message").innerHTML = "";
+
+    showScreen("mission");
+}
+
+function checkAnswer() {
+
+    const answer =
+        document.getElementById("answer").value;
+
+    const message =
+        document.getElementById("message");
+
+    if (answer === "4") {
+
+        message.style.color = "#72f2a2";
+
+        message.innerHTML =
+            "✨ RESPOSTA CORRETA! O selo mágico foi quebrado!";
+
+        setTimeout(() => {
+            showScreen("reward");
+        }, 1200);
+
+    } else {
+
+        message.style.color = "#ff7777";
+
+        message.innerHTML =
+            "❌ Ainda não! Tente novamente, jovem herói.";
+
+    }
+
+}
+
+</script>
 
 </body>
-
 </html>
